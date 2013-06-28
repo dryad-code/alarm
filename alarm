@@ -1,0 +1,36 @@
+#!/usr/bin/python
+#A simple alarm/timer program implemented in python.
+#Created on Sunday, January 20, 2013
+ 
+import time
+import sys
+import os
+
+if sys.argv[1] == '-t':
+	time.sleep(int(sys.argv[2]))
+	print('\a')
+	print(sys.argv[2] + ' seconds have passed.')
+	if len(sys.argv) == 4:
+		os.system(sys.argv[3])
+elif sys.argv[1] == '-s':
+	ct = time.time()
+ 	raw_input('Press any key to stop the stopwatch.')
+	nct = time.time()
+	et = time.strftime('%H:%M:%S', time.gmtime(nct - ct))
+	print et
+elif sys.argv[1] == '-a':
+	ct = time.time()
+	ct_struct = time.localtime(ct)
+	#Sleep for time_when_alarm_goes_off - current_time seconds	
+	ft = time.strptime(sys.argv[2], '%H:%M:%S')
+	nft = list(ct_struct)
+	nft[3] = ft.tm_hour
+	nft[4] = ft.tm_min
+	nft[5] = ft.tm_sec	
+	ft = time.struct_time(nft)
+	print ft
+	ft = time.mktime(ft)
+	time.sleep(ft - ct)
+	print('\a')
+	raw_input('Time\'s up!  Press the Enter key to continue')
+
